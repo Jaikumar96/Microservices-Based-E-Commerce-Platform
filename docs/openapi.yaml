@@ -1,0 +1,196 @@
+openapi: 3.1.0
+info:
+  title: Ecommerce Microservices API (Stub)
+  version: 0.1.0
+  description: |
+    Minimal OpenAPI stub to document the API gateway surface. Update paths/schemas as backend services evolve.
+servers:
+  - url: http://localhost:8080/api
+    description: Local API Gateway
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ApiError:
+      type: object
+      properties:
+        timestamp: { type: string, format: date-time }
+        status: { type: integer }
+        error: { type: string }
+        path: { type: string }
+    Product:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        name: { type: string }
+        description: { type: string }
+        price: { type: number, format: double }
+        category: { type: string }
+        skuCode: { type: string }
+        quantity: { type: integer }
+        imageUrl: { type: string, format: uri }
+      required: [name, price, skuCode]
+    User:
+      type: object
+      properties:
+        id: { type: integer, format: int64 }
+        username: { type: string }
+        email: { type: string, format: email }
+        roles:
+          type: array
+          items: { type: string }
+paths:
+  /auth/login:
+    post:
+      summary: Login and receive JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username: { type: string }
+                password: { type: string }
+              required: [username, password]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token: { type: string, description: JWT bearer token }
+        '401': { description: Unauthorized }
+  /auth/register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username: { type: string }
+                email: { type: string, format: email }
+                password: { type: string, format: password }
+              required: [username, email, password]
+      responses:
+        '201': { description: Created }
+        '400': { description: Bad Request }
+  /auth/me:
+    get:
+      security: [ { bearerAuth: [] } ]
+      summary: Get current user profile
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/User' }
+        '401': { description: Unauthorized }
+    put:
+      security: [ { bearerAuth: [] } ]
+      summary: Update current user profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200': { description: Updated }
+        '400': { description: Bad Request }
+        '401': { description: Unauthorized }
+  /products:
+    get:
+      summary: List products
+      parameters:
+        - in: query
+          name: q
+          schema: { type: string }
+          description: Free text search
+        - in: query
+          name: category
+          schema: { type: string }
+        - in: query
+          name: minPrice
+          schema: { type: number }
+        - in: query
+          name: maxPrice
+          schema: { type: number }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Product' }
+    post:
+      security: [ { bearerAuth: [] } ]
+      summary: Create product (admin)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Product' }
+      responses:
+        '201': { description: Created }
+        '401': { description: Unauthorized }
+  /products/{id}:
+    get:
+      summary: Get product by id
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer, format: int64 }
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Product' }
+        '404': { description: Not Found }
+    delete:
+      security: [ { bearerAuth: [] } ]
+      summary: Delete product (admin)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: integer, format: int64 }
+      responses:
+        '204': { description: No Content }
+        '401': { description: Unauthorized }
+  /users:
+    get:
+      security: [ { bearerAuth: [] } ]
+      summary: List users (admin)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/User' }
+  /orders:
+    get:
+      security: [ { bearerAuth: [] } ]
+      summary: List current user's orders (stub)
+      responses:
+        '200': { description: OK }
+  /wishlist:
+    get:
+      security: [ { bearerAuth: [] } ]
+      summary: Get wishlist items (stub)
+      responses:
+        '200': { description: OK }

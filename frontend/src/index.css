@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom base styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #111827; /* Tailwind text-gray-900 */
+    background-color: #f9fafb; /* Tailwind bg-gray-50 */
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+/* Custom component styles */
+@layer components {
+  .btn-primary {
+    background-color: #2563eb; /* primary-600 */
+    color: #ffffff;
+    font-weight: 500;
+    padding: 0.75rem 1.5rem; /* py-3 px-6 */
+    border-radius: 0.5rem; /* rounded-lg */
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 10px 15px -3px rgba(59,130,246,0.08), 0 4px 6px -2px rgba(59,130,246,0.03);
+    border: none;
+  }
+  .btn-primary:hover {
+    background-color: #1d4ed8; /* primary-700 */
+    transform: scale(1.05);
+    box-shadow: 0 20px 25px -5px rgba(59,130,246,0.12), 0 8px 10px -6px rgba(59,130,246,0.04);
+  }
+  .btn-primary:focus {
+    outline: 2px solid rgba(37,99,235,0.2);
+    outline-offset: 2px;
+  }
+
+  .btn-secondary {
+    background-color: #f1f5f9; /* secondary-100 */
+    color: #1e293b; /* secondary-800 */
+    font-weight: 500;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #cbd5e1; /* secondary-300 */
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-secondary:hover {
+    background-color: #e2e8f0; /* secondary-200 */
+  }
+  .btn-secondary:focus {
+    outline: 2px solid rgba(148,163,184,0.2);
+    outline-offset: 2px;
+  }
+
+  .card {
+    background-color: #ffffff;
+    border-radius: 0.75rem; /* rounded-xl */
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04);
+    border: 1px solid #f3f4f6; /* gray-100 */
+    transition: box-shadow 0.3s ease;
+  }
+  .card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.06);
+  }
+
+  .input-field {
+    width: 100%;
+    padding: 0.75rem 1rem; /* px-4 py-3 */
+    border: 1px solid #d1d5db; /* gray-300 */
+    border-radius: 0.5rem;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .input-field:focus {
+    box-shadow: 0 0 0 4px rgba(59,130,246,0.08); /* focus ring primary-500 */
+    border-color: transparent;
+    outline: none;
+  }
+
+  .loading-spinner {
+    border-radius: 9999px;
+    height: 1.5rem; /* 6 */
+    width: 1.5rem;
+    border: 2px solid #2563eb; /* primary-600 */
+    border-top-color: transparent;
+    animation: tw-spin 1s linear infinite;
+  }
+  @keyframes tw-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Icon styles */
+  .icon {
+    width: 2rem; /* Adjust as needed */
+    height: 2rem; /* Adjust as needed */
+    display: inline-block;
+  }
+}

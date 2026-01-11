@@ -1,0 +1,68 @@
+{
+  "info": {
+    "name": "Ecommerce Microservices (Stub)",
+    "_postman_id": "3f6a3c7c-8c88-4a1f-9298-2b47b4f1e9a1",
+    "description": "Starter collection for local API Gateway endpoints. Update as services evolve.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:8080/api" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth / Login",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "url": { "raw": "{{base_url}}/auth/login", "host": ["{{base_url}}"], "path": ["auth","login"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Auth / Register",
+      "request": {
+        "method": "POST",
+        "header": [ { "key": "Content-Type", "value": "application/json" } ],
+        "url": { "raw": "{{base_url}}/auth/register", "host": ["{{base_url}}"], "path": ["auth","register"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"user1\",\n  \"email\": \"user1@example.com\",\n  \"password\": \"password\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Products / List",
+      "request": {
+        "method": "GET",
+        "url": { "raw": "{{base_url}}/products", "host": ["{{base_url}}"], "path": ["products"] }
+      }
+    },
+    {
+      "name": "Products / Create (admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": { "raw": "{{base_url}}/products", "host": ["{{base_url}}"], "path": ["products"] },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Sample Product\",\n  \"description\": \"A demo product\",\n  \"price\": 999.0,\n  \"category\": \"electronics\",\n  \"skuCode\": \"SKU-001\",\n  \"quantity\": 100\n}"
+        }
+      }
+    },
+    {
+      "name": "Admin / Users / List",
+      "request": {
+        "method": "GET",
+        "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ],
+        "url": { "raw": "{{base_url}}/users", "host": ["{{base_url}}"], "path": ["users"] }
+      }
+    }
+  ]
+}
