@@ -130,3 +130,7 @@ coverage/
 
 # Application specific
 frontend - Copy/
+
+# IDE
+.idea/
+.vscode/
